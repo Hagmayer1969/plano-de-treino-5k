@@ -1,0 +1,631 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Meu Plano de Corrida 5km</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f0f4f8;
+            color: #073B4C;
+        }
+        .sidebar {
+            background-color: #073B4C;
+            color: #f0f4f8;
+        }
+        .nav-button {
+            padding: 0.75rem 1rem;
+            border-radius: 0.5rem;
+            cursor: pointer;
+            transition: background-color 0.2s ease-in-out, color 0.2s ease-in-out;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        .nav-button:hover {
+            background-color: #118AB2;
+        }
+        .nav-button.active {
+            background-color: #06D6A0;
+            color: #073B4C;
+        }
+        .card {
+            background-color: #ffffff;
+            border-radius: 0.75rem;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+        }
+        .pace-legend-item {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 0.875rem;
+            color: #4b5563;
+        }
+        .pace-color-box {
+            width: 1rem;
+            height: 1rem;
+            border-radius: 0.25rem;
+        }
+        .footer-text {
+            color: #6b7280;
+        }
+    </style>
+</head>
+<body class="flex flex-col min-h-screen">
+    <header class="bg-[#073B4C] text-white p-4 shadow-md text-center">
+        <h1 class="text-2xl md:text-3xl font-bold">Meu Plano de Corrida 5km</h1>
+    </header>
+
+    <div class="flex flex-1 flex-col md:flex-row">
+        <nav class="sidebar w-full md:w-64 p-4 md:p-6 shadow-lg flex-shrink-0">
+            <h2 class="text-xl font-bold mb-4 text-[#FFD166]">Semanas</h2>
+            <ul id="week-navigation" class="space-y-2">
+                <!-- Navigation buttons will be injected here by JavaScript -->
+            </ul>
+        </nav>
+
+        <main class="flex-1 p-4 md:p-8 bg-slate-100 overflow-y-auto">
+            <h2 id="week-title" class="text-3xl font-bold mb-4 text-[#073B4C]"></h2>
+            <p id="week-description" class="text-slate-600 mb-6"></p>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-8">
+                <div class="card">
+                    <h3 class="text-xl font-bold mb-2 text-[#073B4C]">Legenda de Paces</h3>
+                    <div class="space-y-2">
+                        <div class="pace-legend-item">
+                            <div class="pace-color-box bg-gray-300"></div>
+                            <span>Aquecimento/Desaquecimento: > 10:00 min/km</span>
+                        </div>
+                        <div class="pace-legend-item">
+                            <div class="pace-color-box bg-[#118AB2]"></div>
+                            <span>Trote Leve: 7:30 - 8:30 min/km</span>
+                        </div>
+                        <div class="pace-legend-item">
+                            <div class="pace-color-box bg-[#FFD166]"></div>
+                            <span>Corrida Moderada: 6:43 min/km</span>
+                        </div>
+                        <div class="pace-legend-item">
+                            <div class="pace-color-box bg-[#FF6B6B]"></div>
+                            <span>Corrida Forte: 5:30 - 5:50 min/km</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div id="workouts-container" class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                <!-- Workout details will be injected here by JavaScript -->
+            </div>
+        </main>
+    </div>
+
+    <footer class="bg-slate-200 p-4 text-center text-sm footer-text">
+        <p>Plano de treinamento personalizado. Lembre-se: sempre consulte um profissional de educação física.</p>
+    </footer>
+
+    <script>
+        const workoutPlanData = [
+            {
+                week: 1,
+                title: "Semana 1: Adaptação Ativa",
+                description: "Foco em aprender a técnica dos exercícios e fortalecer os músculos de forma geral, preparando o corpo para o aumento da carga nos treinos de corrida.",
+                days: [
+                    {
+                        day: "Terça-feira",
+                        type: "Corrida (Ritmo/Contínuo)",
+                        details: [
+                            "10 minutos de Aquecimento (Caminhada Leve - Pace > 10:00 min/km)",
+                            "25 minutos de Trote Leve (Pace 7:30 - 8:30 min/km) com alguns momentos de Caminhada Rápida (Pace 8:30 - 9:30 min/km) se necessário",
+                            "5 minutos de Desaquecimento (Caminhada Leve - Pace > 10:00 min/km)"
+                        ]
+                    },
+                    {
+                        day: "Quarta-feira",
+                        type: "Fortalecimento Dia 1",
+                        details: [
+                            "Aquecimento (5 min): Leve (mobilidade articular)",
+                            "Agachamento Livre (sem peso): 3 séries de 10-12 repetições",
+                            "Prancha (Frontal): 3 séries, segurando por 20-30 segundos",
+                            "Elevação de Calcanhares (Panturrilha): 3 séries de 15-20 repetições",
+                            "Alongamento (5 min): Focando nos músculos trabalhados."
+                        ]
+                    },
+                    {
+                        day: "Quinta-feira",
+                        type: "Corrida (Intervalado/Fartlek)",
+                        details: [
+                            "10 minutos de Aquecimento (Caminhada Leve - Pace > 10:00 min/km)",
+                            "5x [2 minutos de Trote Leve (Pace 7:30 - 8:30 min/km) + 3 minutos de Corrida Moderada (Pace 6:43 min/km)]",
+                            "5 minutos de Desaquecimento (Caminhada Leve - Pace > 10:00 min/km)"
+                        ]
+                    },
+                    {
+                        day: "Sexta-feira",
+                        type: "Fortalecimento Dia 2",
+                        details: [
+                            "Aquecimento (5 min): Leve (mobilidade articular)",
+                            "Afundo (Passada para frente): 3 séries de 8-10 repetições para cada perna",
+                            "Ponte de Glúteos: 3 séries de 12-15 repetições",
+                            "Remada Curvada com Elástico (ou Halteres Leves): 3 séries de 10-12 repetições",
+                            "Alongamento (5 min): Focando nos músculos trabalhados."
+                        ]
+                    },
+                    {
+                        day: "Domingo",
+                        type: "Corrida (Longão Leve)",
+                        details: [
+                            "10 minutos de Aquecimento (Caminhada Leve - Pace > 10:00 min/km)",
+                            "30 minutos de Trote Leve (Pace 7:30 - 8:30 min/km)",
+                            "5 minutos de Desaquecimento (Caminhada Leve - Pace > 10:00 min/km)"
+                        ]
+                    }
+                ]
+            },
+            {
+                week: 2,
+                title: "Semana 2: Aumentando o Tempo Corrido",
+                description: "Nesta semana, o volume de corrida aumenta, com foco em estender o tempo de trote leve e introduzir mais blocos de corrida moderada. O fortalecimento continua a construir sua base.",
+                days: [
+                    {
+                        day: "Terça-feira",
+                        type: "Corrida (Ritmo/Contínuo)",
+                        details: [
+                            "10 minutos de Aquecimento (Caminhada Leve - Pace > 10:00 min/km)",
+                            "30 minutos de Trote Leve (Pace 7:30 - 8:30 min/km) com 5 minutos de Corrida Moderada (Pace 6:43 min/km) no meio",
+                            "5 minutos de Desaquecimento (Caminhada Leve - Pace > 10:00 min/km)"
+                        ]
+                    },
+                    {
+                        day: "Quarta-feira",
+                        type: "Fortalecimento Dia 1",
+                        details: [
+                            "Aquecimento (5 min): Leve",
+                            "Agachamento Livre (sem peso): 3 séries de 10-12 repetições",
+                            "Prancha (Frontal): 3 séries, segurando por 20-30 segundos",
+                            "Elevação de Calcanhares (Panturrilha): 3 séries de 15-20 repetições",
+                            "Alongamento (5 min): Focando nos músculos trabalhados."
+                        ]
+                    },
+                    {
+                        day: "Quinta-feira",
+                        type: "Corrida (Intervalado/Fartlek)",
+                        details: [
+                            "10 minutos de Aquecimento (Caminhada Leve - Pace > 10:00 min/km)",
+                            "6x [1 minuto de Trote Leve (Pace 7:30 - 8:30 min/km) + 4 minutos de Corrida Moderada (Pace 6:43 min/km)]",
+                            "5 minutos de Desaquecimento (Caminhada Leve - Pace > 10:00 min/km)"
+                        ]
+                    },
+                    {
+                        day: "Sexta-feira",
+                        type: "Fortalecimento Dia 2",
+                        details: [
+                            "Aquecimento (5 min): Leve",
+                            "Afundo (Passada para frente): 3 séries de 8-10 repetições para cada perna",
+                            "Ponte de Glúteos: 3 séries de 12-15 repetições",
+                            "Remada Curvada com Elástico (ou Halteres Leves): 3 séries de 10-12 repetições",
+                            "Alongamento (5 min): Focando nos músculos trabalhados."
+                        ]
+                    },
+                    {
+                        day: "Domingo",
+                        type: "Corrida (Longão Leve)",
+                        details: [
+                            "10 minutos de Aquecimento (Caminhada Leve - Pace > 10:00 min/km)",
+                            "35 minutos de Trote Leve (Pace 7:30 - 8:30 min/km) com 10 minutos de Corrida Moderada (Pace 6:43 min/km) no meio",
+                            "5 minutos de Desaquecimento (Caminhada Leve - Pace > 10:00 min/km)"
+                        ]
+                    }
+                ]
+            },
+            {
+                week: 3,
+                title: "Semana 3: Mais Corrida Contínua",
+                description: "Aumentamos a proporção de corrida contínua nos treinos, preparando o corpo para sustentar o esforço por mais tempo. O fortalecimento ganha um pouco mais de volume.",
+                days: [
+                    {
+                        day: "Terça-feira",
+                        type: "Corrida (Ritmo/Contínuo)",
+                        details: [
+                            "10 minutos de Aquecimento (Caminhada Leve - Pace > 10:00 min/km)",
+                            "35 minutos de Trote Leve (Pace 7:30 - 8:30 min/km) com 10 minutos de Corrida Moderada (Pace 6:43 min/km) no meio",
+                            "5 minutos de Desaquecimento (Caminhada Leve - Pace > 10:00 min/km)"
+                        ]
+                    },
+                    {
+                        day: "Quarta-feira",
+                        type: "Fortalecimento Dia 1",
+                        details: [
+                            "Aquecimento (5 min): Leve",
+                            "Agachamento Livre: 4 séries de 12-15 repetições",
+                            "Prancha (Frontal): 4 séries, segurando por 30-40 segundos",
+                            "Elevação de Calcanhares (Panturrilha): 4 séries de 20-25 repetições",
+                            "Alongamento (5 min): Focando nos músculos trabalhados."
+                        ]
+                    },
+                    {
+                        day: "Quinta-feira",
+                        type: "Corrida (Intervalado/Fartlek)",
+                        details: [
+                            "10 minutos de Aquecimento (Caminhada Leve - Pace > 10:00 min/km)",
+                            "7x [30 segundos de Trote Leve (Pace 7:30 - 8:30 min/km) + 4 minutos e 30 segundos de Corrida Moderada (Pace 6:43 min/km)]",
+                            "5 minutos de Desaquecimento (Caminhada Leve - Pace > 10:00 min/km)"
+                        ]
+                    },
+                    {
+                        day: "Sexta-feira",
+                        type: "Fortalecimento Dia 2",
+                        details: [
+                            "Aquecimento (5 min): Leve",
+                            "Afundo: 4 séries de 10-12 repetições para cada perna",
+                            "Ponte de Glúteos (com uma perna, se possível): 4 séries de 10-12 repetições para cada perna.",
+                            "Remada Curvada com Elástico (ou Halteres Leves): 4 séries de 12-15 repetições",
+                            "Alongamento (5 min): Focando nos músculos trabalhados."
+                        ]
+                    },
+                    {
+                        day: "Domingo",
+                        type: "Corrida (Longão Leve)",
+                        details: [
+                            "10 minutos de Aquecimento (Caminhada Leve - Pace > 10:00 min/km)",
+                            "40 minutos de Trote Leve (Pace 7:30 - 8:30 min/km) com 15 minutos de Corrida Moderada (Pace 6:43 min/km) no meio",
+                            "5 minutos de Desaquecimento (Caminhada Leve - Pace > 10:00 min/km)"
+                        ]
+                    }
+                ]
+            },
+            {
+                week: 4,
+                title: "Semana 4: Consolidando o Ritmo Base",
+                description: "Esta semana é crucial para consolidar a base aeróbica. Começamos a introduzir o pace alvo nos treinos intervalados, preparando o corpo para a velocidade.",
+                days: [
+                    {
+                        day: "Terça-feira",
+                        type: "Corrida (Ritmo/Contínuo)",
+                        details: [
+                            "10 minutos de Aquecimento (Caminhada Leve - Pace > 10:00 min/km)",
+                            "40 minutos de Trote Leve (Pace 7:30 - 8:30 min/km) com 2x (5 minutos de Corrida Moderada (Pace 6:43 min/km))",
+                            "5 minutos de Desaquecimento (Caminhada Leve - Pace > 10:00 min/km)"
+                        ]
+                    },
+                    {
+                        day: "Quarta-feira",
+                        type: "Fortalecimento Dia 1",
+                        details: [
+                            "Aquecimento (5 min): Leve",
+                            "Agachamento Livre: 4 séries de 12-15 repetições",
+                            "Prancha (Frontal): 4 séries, segurando por 30-40 segundos",
+                            "Elevação de Calcanhares (Panturrilha): 4 séries de 20-25 repetições (pode fazer uma perna de cada vez para mais intensidade, se sentir segurança).",
+                            "Alongamento (5 min): Focando nos músculos trabalhados."
+                        ]
+                    },
+                    {
+                        day: "Quinta-feira",
+                        type: "Corrida (Intervalado/Fartlek)",
+                        details: [
+                            "10 minutos de Aquecimento (Caminhada Leve - Pace > 10:00 min/km)",
+                            "8x [1 minuto de Corrida Forte (Pace 5:30 - 5:50 min/km) + 3 minutos de Trote Leve (Pace 7:30 - 8:30 min/km)]",
+                            "5 minutos de Desaquecimento (Caminhada Leve - Pace > 10:00 min/km)"
+                        ]
+                    },
+                    {
+                        day: "Sexta-feira",
+                        type: "Fortalecimento Dia 2",
+                        details: [
+                            "Aquecimento (5 min): Leve",
+                            "Afundo: 4 séries de 10-12 repetições para cada perna",
+                            "Ponte de Glúteos (com uma perna, se possível): 4 séries de 10-12 repetições para cada perna.",
+                            "Remada Curvada com Elástico (ou Halteres Leves): 4 séries de 12-15 repetições",
+                            "Alongamento (5 min): Focando nos músculos trabalhados."
+                        ]
+                    },
+                    {
+                        day: "Domingo",
+                        type: "Corrida (Longão Leve)",
+                        details: [
+                            "10 minutos de Aquecimento (Caminhada Leve - Pace > 10:00 min/km)",
+                            "45 minutos de Trote Leve (Pace 7:30 - 8:30 min/km) com alguns momentos de Corrida Moderada (Pace 6:43 min/km)",
+                            "5 minutos de Desaquecimento (Caminhada Leve - Pace > 10:00 min/km)"
+                        ]
+                    }
+                ]
+            },
+            {
+                week: 5,
+                title: "Semana 5: Aumentando o Volume no Ritmo Alvo",
+                description: "Com a base estabelecida, o foco muda para a intensificação. Aumentamos o volume de corrida em ritmo moderado e forte, e introduzimos exercícios de fortalecimento mais desafiadores.",
+                days: [
+                    {
+                        day: "Terça-feira",
+                        type: "Corrida (Ritmo/Contínuo)",
+                        details: [
+                            "10 minutos de Aquecimento (Caminhada Leve - Pace > 10:00 min/km)",
+                            "40 minutos de Trote Leve (Pace 7:30 - 8:30 min/km) com 3x (7 minutos de Corrida Moderada (Pace 6:43 min/km))",
+                            "5 minutos de Desaquecimento (Caminhada Leve - Pace > 10:00 min/km)"
+                        ]
+                    },
+                    {
+                        day: "Quarta-feira",
+                        type: "Fortalecimento Dia 1",
+                        details: [
+                            "Aquecimento (5 min): Leve",
+                            "Agachamento Búlgaro (Pé de trás elevado): 3 séries de 8-10 repetições para cada perna (ou mais séries de afundo tradicional se for muito difícil)",
+                            "Prancha Lateral: 3 séries, segurando por 20-30 segundos para cada lado",
+                            "Passos Laterais com Elástico (se tiver): 3 séries de 15-20 passos para cada lado",
+                            "Alongamento (5 min): Focando nos músculos trabalhados."
+                        ]
+                    },
+                    {
+                        day: "Quinta-feira",
+                        type: "Corrida (Intervalado/Fartlek)",
+                        details: [
+                            "10 minutos de Aquecimento (Caminhada Leve - Pace > 10:00 min/km)",
+                            "6x [2 minutos de Corrida Forte (Pace 5:30 - 5:50 min/km) + 2 minutos de Trote Leve (Pace 7:30 - 8:30 min/km)]",
+                            "5 minutos de Desaquecimento (Caminhada Leve - Pace > 10:00 min/km)"
+                        ]
+                    },
+                    {
+                        day: "Sexta-feira",
+                        type: "Fortalecimento Dia 2",
+                        details: [
+                            "Aquecimento (5 min): Leve",
+                            "Deadlift Romeno Unilateral (com ou sem peso): 3 séries de 8-10 repetições para cada perna",
+                            "Elevação de Joelho deitado (para fortalecer iliopsoas): 3 séries de 15-20 repetições para cada perna",
+                            "Elevação de Calcanhares (Panturrilha) com progressão: 4 séries de 15-20 repetições.",
+                            "Alongamento (5 min): Focando nos músculos trabalhados."
+                        ]
+                    },
+                    {
+                        day: "Domingo",
+                        type: "Corrida (Longão Leve)",
+                        details: [
+                            "10 minutos de Aquecimento (Caminhada Leve - Pace > 10:00 min/km)",
+                            "50 minutos de Trote Leve (Pace 7:30 - 8:30 min/km)",
+                            "5 minutos de Desaquecimento (Caminhada Leve - Pace > 10:00 min/km)"
+                        ]
+                    }
+                ]
+            },
+            {
+                week: 6,
+                title: "Semana 6: Testando o Pace Alvo",
+                description: "Esta semana é crucial para sentir o pace alvo. Os treinos de velocidade se tornam mais longos, simulando o esforço necessário para a prova. O fortalecimento continua a dar suporte.",
+                days: [
+                    {
+                        day: "Terça-feira",
+                        type: "Corrida (Ritmo/Contínuo)",
+                        details: [
+                            "10 minutos de Aquecimento (Caminhada Leve - Pace > 10:00 min/km)",
+                            "45 minutos de Trote Leve (Pace 7:30 - 8:30 min/km) com 2x (10 minutos de Corrida Moderada (Pace 6:43 min/km))",
+                            "5 minutos de Desaquecimento (Caminhada Leve - Pace > 10:00 min/km)"
+                        ]
+                    },
+                    {
+                        day: "Quarta-feira",
+                        type: "Fortalecimento Dia 1",
+                        details: [
+                            "Aquecimento (5 min): Leve",
+                            "Agachamento Búlgaro (Pé de trás elevado): 3 séries de 8-10 repetições para cada perna (ou mais séries de afundo tradicional se for muito difícil)",
+                            "Prancha Lateral: 3 séries, segurando por 20-30 segundos para cada lado",
+                            "Passos Laterais com Elástico (se tiver): 3 séries de 15-20 passos para cada lado",
+                            "Alongamento (5 min): Focando nos músculos trabalhados."
+                        ]
+                    },
+                    {
+                        day: "Quinta-feira",
+                        type: "Corrida (Intervalado/Fartlek)",
+                        details: [
+                            "10 minutos de Aquecimento (Caminhada Leve - Pace > 10:00 min/km)",
+                            "4x [3 minutos de Corrida Forte (tentando manter Pace 5:50 min/km) + 2 minutos de Trote Leve (Pace 7:30 - 8:30 min/km)]",
+                            "5 minutos de Desaquecimento (Caminhada Leve - Pace > 10:00 min/km)"
+                        ]
+                    },
+                    {
+                        day: "Sexta-feira",
+                        type: "Fortalecimento Dia 2",
+                        details: [
+                            "Aquecimento (5 min): Leve",
+                            "Deadlift Romeno Unilateral (com ou sem peso): 3 séries de 8-10 repetições para cada perna",
+                            "Elevação de Joelho deitado (para fortalecer iliopsoas): 3 séries de 15-20 repetições para cada perna",
+                            "Elevação de Calcanhares (Panturrilha) com progressão: 4 séries de 15-20 repetições.",
+                            "Alongamento (5 min): Focando nos músculos trabalhados."
+                        ]
+                    },
+                    {
+                        day: "Domingo",
+                        type: "Corrida (Longão Leve)",
+                        details: [
+                            "10 minutos de Aquecimento (Caminhada Leve - Pace > 10:00 min/km)",
+                            "55 minutos de Trote Leve (Pace 7:30 - 8:30 min/km) com algumas seções de Corrida Moderada (Pace 6:43 min/km)",
+                            "5 minutos de Desaquecimento (Caminhada Leve - Pace > 10:00 min/km)"
+                        ]
+                    }
+                ]
+            },
+            {
+                week: 7,
+                title: "Semana 7: Pré-Prova e Ajustes Finais",
+                description: "A penúltima semana foca em refinar o ritmo e a resistência. Os treinos são mais curtos, mas ainda desafiadores, preparando o corpo para o polimento final antes da prova.",
+                days: [
+                    {
+                        day: "Terça-feira",
+                        type: "Corrida (Ritmo/Contínuo)",
+                        details: [
+                            "10 minutos de Aquecimento (Caminhada Leve - Pace > 10:00 min/km)",
+                            "30 minutos de Trote Leve (Pace 7:30 - 8:30 min/km) com 15 minutos de Corrida Moderada (Pace 6:43 min/km)",
+                            "5 minutos de Desaquecimento (Caminhada Leve - Pace > 10:00 min/km)"
+                        ]
+                    },
+                    {
+                        day: "Quarta-feira",
+                        type: "Fortalecimento Dia 1",
+                        details: [
+                            "Aquecimento (5 min): Leve",
+                            "Agachamento Livre ou Búlgaro: 3 séries de 10-12 repetições",
+                            "Prancha (Frontal): 3 séries, segurando por 30 segundos",
+                            "Elevação de Calcanhares: 3 séries de 15-20 repetições",
+                            "Alongamento (5 min): Focando nos músculos trabalhados."
+                        ]
+                    },
+                    {
+                        day: "Quinta-feira",
+                        type: "Corrida (Intervalado/Fartlek)",
+                        details: [
+                            "10 minutos de Aquecimento (Caminhada Leve - Pace > 10:00 min/km)",
+                            "3x [4 minutos de Corrida Forte (Pace 5:50 min/km) + 2 minutos de Trote Leve (Pace 7:30 - 8:30 min/km)]",
+                            "5 minutos de Desaquecimento (Caminhada Leve - Pace > 10:00 min/km)"
+                        ]
+                    },
+                    {
+                        day: "Sexta-feira",
+                        type: "Fortalecimento Dia 2",
+                        details: [
+                            "Aquecimento (5 min): Leve",
+                            "Afundo ou Deadlift Romeno Unilateral: 3 séries de 8-10 repetições para cada perna",
+                            "Ponte de Glúteos (normal ou unilateral): 3 séries de 12-15 repetições",
+                            "Um exercício de core adicional de sua preferência (ex: abdominal crunch ou bicicleta no ar): 3 séries de 15-20 repetições",
+                            "Alongamento (5 min): Focando nos músculos trabalhados."
+                        ]
+                    },
+                    {
+                        day: "Domingo",
+                        type: "Corrida (Longão Leve)",
+                        details: [
+                            "10 minutos de Aquecimento (Caminhada Leve - Pace > 10:00 min/km)",
+                            "40 minutos de Trote Leve (Pace 7:30 - 8:30 min/km)",
+                            "5 minutos de Desaquecimento (Caminhada Leve - Pace > 10:00 min/km)"
+                        ]
+                    }
+                ]
+            },
+            {
+                week: 8,
+                title: "Semana 8: Polimento e Redução do Volume (Semana da Prova)",
+                description: "A semana final é de polimento. O volume de treino diminui drasticamente para permitir que seu corpo se recupere e esteja no auge de sua forma para o dia da prova. O fortalecimento é leve, apenas para ativação.",
+                days: [
+                    {
+                        day: "Terça-feira",
+                        type: "Corrida (Ritmo/Contínuo)",
+                        details: [
+                            "10 minutos de Aquecimento (Caminhada Leve - Pace > 10:00 min/km)",
+                            "25 minutos de Trote Leve (Pace 7:30 - 8:30 min/km) com 2x (5 minutos de Corrida Moderada (Pace 6:43 min/km))",
+                            "5 minutos de Desaquecimento (Caminhada Leve - Pace > 10:00 min/km)"
+                        ]
+                    },
+                    {
+                        day: "Quarta-feira",
+                        type: "Fortalecimento Dia 1 (Leve)",
+                        details: [
+                            "Aquecimento (5 min): Leve",
+                            "Agachamento Livre ou Búlgaro: 2 séries de 8-10 repetições (leve, para ativar)",
+                            "Prancha (Frontal): 2 séries de 20 segundos",
+                            "Elevação de Calcanhares: 2 séries de 10-12 repetições",
+                            "Alongamento (5 min): Focando nos músculos trabalhados."
+                        ]
+                    },
+                    {
+                        day: "Quinta-feira",
+                        type: "Corrida (Intervalado/Fartlek)",
+                        details: [
+                            "10 minutos de Aquecimento (Caminhada Leve - Pace > 10:00 min/km)",
+                            "3x [1 minuto de Corrida Forte (para ativar - Pace 5:30 - 5:50 min/km) + 2 minutos de Trote Leve (Pace 7:30 - 8:30 min/km)]",
+                            "5 minutos de Desaquecimento (Caminhada Leve - Pace > 10:00 min/km)"
+                        ]
+                    },
+                    {
+                        day: "Sexta-feira",
+                        type: "Fortalecimento Dia 2 (Leve ou Nenhum)",
+                        details: [
+                            "Aquecimento (5 min): Leve",
+                            "Afundo ou Deadlift Romeno Unilateral: 2 séries de 6-8 repetições (leve, para ativar)",
+                            "Ponte de Glúteos (normal ou unilateral): 2 séries de 10 repetições",
+                            "Um exercício de core adicional de sua preferência: 2 séries de 10-12 repetições",
+                            "Alongamento (5 min): Focando nos músculos trabalhados."
+                        ]
+                    },
+                    {
+                        day: "Domingo",
+                        type: "Corrida (Longão Leve)",
+                        details: [
+                            "DESCANSO COMPLETO ou 20 minutos de Caminhada muito leve (Pace > 10:00 min/km)."
+                        ]
+                    }
+                ]
+            }
+        ];
+
+        const weekNavigation = document.getElementById('week-navigation');
+        const weekTitle = document.getElementById('week-title');
+        const weekDescription = document.getElementById('week-description');
+        const workoutsContainer = document.getElementById('workouts-container');
+
+        function renderWeek(weekNumber) {
+            const weekData = workoutPlanData.find(week => week.week === weekNumber);
+
+            if (!weekData) {
+                weekTitle.textContent = "Semana não encontrada.";
+                weekDescription.textContent = "";
+                workoutsContainer.innerHTML = "";
+                return;
+            }
+
+            weekTitle.textContent = weekData.title;
+            weekDescription.textContent = weekData.description;
+            workoutsContainer.innerHTML = "";
+
+            weekData.days.forEach(day => {
+                const card = document.createElement('div');
+                card.className = 'card';
+                let typeColor = '';
+                if (day.type.includes('Corrida')) {
+                    typeColor = 'text-[#118AB2]';
+                } else if (day.type.includes('Fortalecimento')) {
+                    typeColor = 'text-[#06D6A0]';
+                }
+
+                let icon = '';
+                if (day.type.includes('Corrida')) {
+                    icon = '�';
+                } else if (day.type.includes('Fortalecimento')) {
+                    icon = '🏋️';
+                }
+
+                card.innerHTML = `
+                    <h3 class="text-xl font-bold mb-2 ${typeColor}">${icon} ${day.day}: ${day.type}</h3>
+                    <ul class="list-disc pl-5 text-slate-700 space-y-1">
+                        ${day.details.map(detail => `<li>${detail}</li>`).join('')}
+                    </ul>
+                `;
+                workoutsContainer.appendChild(card);
+            });
+
+            document.querySelectorAll('.nav-button').forEach(button => {
+                button.classList.remove('active');
+            });
+            document.getElementById(`nav-week-${weekNumber}`).classList.add('active');
+        }
+
+        // Populate navigation
+        workoutPlanData.forEach(week => {
+            const listItem = document.createElement('li');
+            const button = document.createElement('button');
+            button.id = `nav-week-${week.week}`;
+            button.className = 'nav-button w-full text-left';
+            button.textContent = `Semana ${week.week}`;
+            button.onclick = () => renderWeek(week.week);
+            listItem.appendChild(button);
+            weekNavigation.appendChild(listItem);
+        });
+
+        // Set initial week (Week 1)
+        renderWeek(1);
+    </script>
+</body>
+</html>
+�
